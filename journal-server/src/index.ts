@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { User } from "./models/User";
 
 import authRoutes from "./routes/auth";
+import userRoutes from "./routes/users";
 
 const app = express();
 app.use(cors());
