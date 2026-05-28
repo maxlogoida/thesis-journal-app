@@ -4,6 +4,7 @@ import { selectProfile, selectRole } from '@/features/auth/authSlice'
 import {
   useGetScheduleQuery,
   useGetScheduleByTeacherQuery,
+  useGetSubjectsQuery,
   useGetSubjectsByTeacherQuery,
   useGetSubjectsByStudentQuery,
   useCreateScheduleEventMutation,
@@ -106,7 +107,9 @@ export function SchedulePage() {
   // Фільтр по типу заняття
   const events = activeType ? (rawEvents ?? []).filter((e) => e.type === activeType) : (rawEvents ?? [])
 
-  const { data: subjects } = useGetSubjectsByTeacherQuery(profile?.id ?? '', { skip: role !== 'teacher' || !profile?.id })
+  const { data: allSubjects } = useGetSubjectsQuery(undefined, { skip: role !== 'super_admin' })
+  const { data: teacherSubjects } = useGetSubjectsByTeacherQuery(profile?.id ?? '', { skip: role !== 'teacher' || !profile?.id })
+  const subjects = role === 'super_admin' ? allSubjects : teacherSubjects
 
   const [createEvent] = useCreateScheduleEventMutation()
   const [updateEvent] = useUpdateScheduleEventMutation()

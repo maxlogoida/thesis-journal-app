@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectProfile } from '@/features/auth/authSlice'
 import {
+  useGetSubjectsQuery,
   useGetSubjectsByTeacherQuery,
   useGetStudentsBySubjectQuery,
   useGetStudentsQuery,
@@ -24,7 +25,10 @@ import { Plus, UserMinus, Search, GraduationCap } from 'lucide-react'
 
 export function StudentsPage() {
   const profile = useSelector(selectProfile)
-  const { data: subjects } = useGetSubjectsByTeacherQuery(profile?.id ?? '', { skip: !profile })
+  const isSuperAdmin = profile?.role === 'super_admin'
+  const { data: allSubjects } = useGetSubjectsQuery(undefined, { skip: !isSuperAdmin })
+  const { data: teacherSubjects } = useGetSubjectsByTeacherQuery(profile?.id ?? '', { skip: !profile || isSuperAdmin })
+  const subjects = isSuperAdmin ? allSubjects : teacherSubjects
   const { data: groups } = useGetGroupsQuery()
   const [createProfile] = useCreateProfileMutation()
   const [addStudent] = useAddStudentToSubjectMutation()

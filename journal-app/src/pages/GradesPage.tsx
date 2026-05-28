@@ -178,13 +178,7 @@ export function GradesPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={exportXLSX} className="border-slate-600 text-slate-300 hover:bg-slate-700">
-            <Download size={14} className="mr-2" /> Excel
-          </Button>
-          <Button variant="outline" size="sm" onClick={exportPDF} className="border-slate-600 text-slate-300 hover:bg-slate-700">
-            <Download size={14} className="mr-2" /> PDF
-          </Button>
-          {role === 'teacher' && (
+{role === 'teacher' && (
             <Button onClick={() => setIsCreateOpen(true)} disabled={!selectedSubject} className="bg-blue-600 hover:bg-blue-700">
               <Plus size={16} className="mr-2" /> Виставити оцінку
             </Button>
